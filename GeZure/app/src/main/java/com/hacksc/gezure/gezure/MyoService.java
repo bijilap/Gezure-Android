@@ -1,5 +1,6 @@
 package com.hacksc.gezure.gezure;
 
+import com.hacksc.gezure.api.Gestures;
 import com.thalmic.myo.AbstractDeviceListener;
 import com.thalmic.myo.DeviceListener;
 import com.thalmic.myo.Hub;
@@ -31,8 +32,29 @@ public class MyoService extends Service {
 		public void onPose(Myo myo, long timestamp, Pose pose) {
 			// Show the name of the pose in a toast.
 			Log.d("SERVICE", "POSE: " + pose.toString());
+
             switch(pose){
                 case WAVE_IN:
+                    Log.d("Myo-Action", "Wave-In");
+
+                    try {
+                        Gestures gs = new Gestures();
+                        gs.execute("http://gezure-test1.cloudapp.net:3000/gestures","IAR3cb1V_ss","manas2");
+                    }
+                    catch(Exception e){
+                        Log.e("service","fail");
+                    }
+
+                    break;
+                case WAVE_OUT:
+                    Log.d("Myo-Action", "Wave-oUT");
+                    try {
+                        Gestures gs = new Gestures();
+                        gs.execute("http://gezure-test1.cloudapp.net:3000/gestures","IAR3cb1V_ss","manas2");
+                    }
+                    catch(Exception e){
+                        Log.e("service","fail");
+                    }
                     break;
                 case FINGERS_SPREAD:
                     break;
@@ -41,6 +63,7 @@ public class MyoService extends Service {
                 default:
                     break;
             }
+
 		}
 	};
 

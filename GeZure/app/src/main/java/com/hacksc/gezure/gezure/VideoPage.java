@@ -1,23 +1,18 @@
 package com.hacksc.gezure.gezure;
 
-import android.app.Activity;
-
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
@@ -28,6 +23,7 @@ public class VideoPage extends Activity
     private static final String developer_key = "AIzaSyAdPW9PttwGCNP-eCgXEDQh5Zr-Yg1siFw";
     private static final boolean autoplay = true;
     private static final boolean lightboxMode = false;
+    private static String videoId = "MDh_aumc0tU";
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -53,6 +49,13 @@ public class VideoPage extends Activity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            this.videoId = extras.getString("url");
+            Log.d("DEBuG", this.videoId + "GONNA START");
+            this.displayVideo(this.videoId, 30000);
+        }
+
         listener();
         //Listener to get the push messages from the server
 
@@ -63,7 +66,7 @@ public class VideoPage extends Activity
 
         //Process the URL
         //Send the video Id and playlist Id to the displayVideo
-        String videoId = "MDh_aumc0tU";
+        String videoId = this.videoId;
         int timeMillis = 30000;
         displayVideo(videoId, timeMillis);
     }
@@ -85,7 +88,7 @@ public class VideoPage extends Activity
                 errorReason.getErrorDialog(this, 0).show();
             } else {
                 String errorMessage = String.format("PLAYER ERROR!!", errorReason.toString());
-               // Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                // Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
                 System.out.println("Error :: "+errorMessage);
             }
         }

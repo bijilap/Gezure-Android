@@ -15,7 +15,9 @@ import java.net.MalformedURLException;
 public class Gestures extends AsyncTask<String,String,String> {
     protected String doInBackground(String... params){
         String endpoint = params[0];
-
+        String gesture = params[1];
+        String user_id = params[2];
+        endpoint += "?gesture="+gesture+"&user_id="+user_id;
         URL url = null;
         try {
             Log.d("Gestures", endpoint);
