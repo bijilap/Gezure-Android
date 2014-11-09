@@ -4,7 +4,8 @@
     <string name="app_name">Gezure</string>
     <string name="title_section1">Login</string>
     <string name="title_section2">Find Myo</string>
-    <string name="title_section3"></string>
+    <string name="title_section3">Connect/Disconnect Myo</string>
+    <string name="title_section4"></string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example"></string>

@@ -88,7 +88,7 @@ public class VideoPage extends Activity
                 errorReason.getErrorDialog(this, 0).show();
             } else {
                 String errorMessage = String.format("PLAYER ERROR!!", errorReason.toString());
-               // Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                // Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
                 System.out.println("Error :: "+errorMessage);
             }
         }
