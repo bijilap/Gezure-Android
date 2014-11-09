@@ -139,13 +139,14 @@ public class MainActivity extends Activity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = getString(R.string.title_section1);
+                signInWithGPlus();
+                //mTitle = getString(R.string.title_section1);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                //mTitle = getString(R.string.title_section2);
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                //mTitle = getString(R.string.title_section3);
                 break;
         }
     }
@@ -258,7 +259,8 @@ public class MainActivity extends Activity
     }
 
     private void resolveSigninError() {
-
+            if(connResult==null)
+                return;
             if (connResult.hasResolution()) {
                 try {
                     intentInProgress = true;
@@ -300,7 +302,7 @@ public class MainActivity extends Activity
         if (googleApiClient.isConnected()) {
             Plus.AccountApi.clearDefaultAccount(googleApiClient);
             googleApiClient.disconnect();
-            googleApiClient.connect();
+            //googleApiClient.connect();
             System.out.println("user logged out!");
         }
     }
