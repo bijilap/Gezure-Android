@@ -35,6 +35,11 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.thalmic.myo.AbstractDeviceListener;
+import com.thalmic.myo.DeviceListener;
+import com.thalmic.myo.Hub;
+import com.thalmic.myo.Myo;
+import com.thalmic.myo.Pose;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -87,6 +92,32 @@ public class MainActivity extends Activity
      */
     private CharSequence mTitle;
 
+    /* myo listener */
+    Hub hub;
+    private DeviceListener mListener = new AbstractDeviceListener() {
+        @Override
+        public void onConnect(Myo myo, long timestamp) {
+            Log.d("Myo", "connected "+ myo.getMacAddress() );
+            //showToast(getString(R.string.connected));
+        }
+        @Override
+        public void onDisconnect(Myo myo, long timestamp) {
+            Log.d("Myo", "Disconnected "+ myo.getMacAddress() );
+            //showToast(getString(R.string.disconnected));
+        }
+        // onPose() is called whenever the Myo detects that the person wearing it has changed their pose, for example,
+        // making a fist, or not making a fist anymore.
+        @Override
+        public void onPose(Myo myo, long timestamp, Pose pose) {
+            // Show the name of the pose in a toast.
+            Log.d("Myo", "connected "+ pose.toString());
+
+
+            //showToast(getString(R.string.pose, pose.toString()));
+        }
+    };
+    /*end of myo listner*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +156,17 @@ public class MainActivity extends Activity
         else {
             Log.i(TAG, "No valid Google Play Services APK found.");
         }
+
+        /* create Myo hub
+        hub = Hub.getInstance();
+        if (!hub.init(this)) {
+            Log.e("Myo", "Could not initialize the Hub.");
+            finish();
+            return;
+        }
+        hub.addListener(mListener);
+        */
+        startService(new Intent(this, MyoService.class));
     }
 
     @Override
@@ -147,6 +189,10 @@ public class MainActivity extends Activity
                 break;
             case 3:
                 //mTitle = getString(R.string.title_section3);
+                //hub.pairWithAdjacentMyo();
+                break;
+            case 4:
+
                 break;
         }
     }
@@ -252,6 +298,8 @@ public class MainActivity extends Activity
     }
 
     private void signInWithGPlus() {
+        if(googleApiClient == null)
+            return;
         if (!googleApiClient.isConnecting()) {
             clicked = true;
             resolveSigninError();
@@ -313,6 +361,15 @@ public class MainActivity extends Activity
         super.onResume();
         checkPlayServices();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // We don't want any callbacks when the Service is gone, so unregister the listener.
+        //Hub.getInstance().removeListener(mListener);
+        //Hub.getInstance().shutdown();
+    }
+
     /**
      * Gets the current registration ID for application on GCM service.
      * <p>
