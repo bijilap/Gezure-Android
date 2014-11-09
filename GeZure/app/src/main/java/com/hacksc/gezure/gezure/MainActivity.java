@@ -10,15 +10,18 @@ import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.view.GestureDetector;
 
 //Google API imports
 import com.google.android.gms.common.ConnectionResult;
@@ -40,6 +43,8 @@ public class MainActivity extends Activity
     private boolean intentInProgress = false;
     private ConnectionResult connResult;
 
+    //To go to the Video page
+    Intent go;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -135,10 +140,19 @@ public class MainActivity extends Activity
             signOutFromGplus();
             return true;
         }
+        else if (id == R.id.video){
+            goToVideoPage();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
+    public void goToVideoPage(){
+        go = new Intent(this, VideoPage.class);
+        startActivity(go);
+
+    }
     @Override
     protected void onActivityResult(int requestCode, int responseCode,
                                     Intent intent) {
@@ -194,16 +208,17 @@ public class MainActivity extends Activity
     }
 
     private void resolveSigninError() {
-        if (connResult.hasResolution()) {
-            try {
-                intentInProgress = true;
-                connResult.startResolutionForResult(this, RC_SIGN_IN);
-            } catch (SendIntentException e) {
-                intentInProgress = false;
-                googleApiClient.connect();
+
+            if (connResult.hasResolution()) {
+                try {
+                    intentInProgress = true;
+                    connResult.startResolutionForResult(this, RC_SIGN_IN);
+                } catch (SendIntentException e) {
+                    intentInProgress = false;
+                    googleApiClient.connect();
+                }
             }
         }
-    }
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
@@ -278,5 +293,6 @@ public class MainActivity extends Activity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
+
 
 }

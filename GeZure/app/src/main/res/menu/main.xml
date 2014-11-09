@@ -8,5 +8,7 @@
         android:orderInCategory="100" android:showAsAction="never" />
     <item android:id="@+id/logout" android:title="@string/logout"
         android:orderInCategory="100" android:showAsAction="never" />
+    <item android:id="@+id/video" android:title="@string/video"
+        android:orderInCategory="100" android:showAsAction="never" />
 
 </menu>
