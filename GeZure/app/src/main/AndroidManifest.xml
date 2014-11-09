@@ -6,8 +6,17 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-
     <!-- End of Google API Integration -I -->
+
+    <!-- GCM Client-->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+
+    <permission android:name="edu.usc.bphilip.gcmclient2.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
+
+    <uses-permission android:name="edu.usc.bphilip.gcmclient2.permission.C2D_MESSAGE"/>
+    <!-- end of GCM Client -->
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -42,6 +51,18 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             />
         <!-- End of youtube integration-->
+
+
+        <!-- GCM Client -->
+        <receiver android:name="com.hacksc.gezure.gezure.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+            <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+             <category android:name="com.hacksc.gezure.gezure"/>
+            </intent-filter>
+
+        </receiver>
+        <service android:name="com.hacksc.gezure.gezure.GcmIntentService"/>
+         <!--End of GCM Client -->
     </application>
 
 </manifest>
